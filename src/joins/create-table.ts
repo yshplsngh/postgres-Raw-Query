@@ -1,4 +1,4 @@
-import { getClient } from "./utils";
+import { getClient } from "../utils";
 
 async function createTable() {
     const createUserTableQuery = `

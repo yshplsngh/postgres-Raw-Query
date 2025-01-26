@@ -4,10 +4,18 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "build": "tsc -b"
+    "build": "tsc -b",
+    "dev": "nodemon --exec \"node -r esbuild-register ./src/index.ts\" -e .ts"
   },
   "dependencies": {
-    "@types/pg": "^8.10.2",
+    "express": "^4.21.2",
     "pg": "^8.11.3"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.0",
+    "esbuild-register": "^3.5.0",
+    "nodemon": "^3.1.9",
+    "esbuild": "^0.20.1",
+    "@types/pg": "^8.10.2"
   }
 }
