@@ -10,7 +10,7 @@ class DatabasePool {
             DatabasePool.instance = new Pool({
                 user: 'postgres',
                 host: 'localhost',
-                database: 'postgres',
+                database: 'testimonial',
                 password: 'postgres',
                 port: 5432,
                 max: 20,

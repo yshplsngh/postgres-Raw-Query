@@ -28,6 +28,8 @@ process.on('uncaughtException', async (error) => {
 });
 
 app.listen(3000, async() => {
-    console.log('Server is running on port 3000');
-    await selectNow();
+    console.log('Server is running on port 3000 🎉');
+    await selectNow().then(() => {
+        process.exit(1);
+    });
 });
