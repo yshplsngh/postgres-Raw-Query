@@ -1,13 +1,10 @@
 import express from 'express';
-import { getPool, closePool } from './utils';
-import { selectNow } from './advSQL/1select';
+import { getPool, closePool, executeQuery } from './utils';
 
 const app = express();
 
-// Initialize the database pool
 getPool();
 
-// Handle graceful shutdown
 process.on('SIGTERM', async () => {
     console.log('SIGTERM received. Shutting down gracefully...');
     await closePool();
@@ -20,7 +17,6 @@ process.on('SIGINT', async () => {
     process.exit(0);
 });
 
-// Handle uncaught exceptions
 process.on('uncaughtException', async (error) => {
     console.error('Uncaught Exception:', error);
     await closePool();
@@ -33,3 +29,30 @@ app.listen(3000, async() => {
         process.exit(1);
     });
 });
+
+
+
+export async function selectNow() {
+    const result = await executeQuery(async (client) => {
+
+        return await client.query(`
+            -- SELECT * from customers;
+            -- SELECT * from customers WHERE customer_id = 1;
+            -- SELECT * from customers ORDER BY first_name; // sort by first name in ascending order
+            -- SELECT * from customers ORDER BY first_name DESC; // sort by first name in descending order
+
+            -- SELECT CLOUSE
+            -- SELECT first_name, last_name, points FROM customers;
+            -- SELECT first_name, last_name, points, points * 0.1 AS "discount amount" FROM customers;
+            -- SELECT DISTINCT state FROM customers; // it will return unique states
+            -- SELECT name, unit_price, unit_price*1.1 AS "new price" from products;
+
+            -- WHERE CLAUSE
+            -- SELECT * FROM customers WHERE state='VA';
+            SELECT * FROM customers WHERE state!='VA';
+        `)
+    }); 
+    console.log(result.rows);
+    console.log('lenght',result.rowCount);
+    console.log('🎉 Done 🎉');
+}
